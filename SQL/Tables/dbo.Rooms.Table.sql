@@ -1,12 +1,12 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  Table [dbo].[Rooms]    Script Date: 6/22/2017 2:35:22 PM ******/
+/****** Object:  Table [dbo].[Rooms]    Script Date: 6/22/2017 3:09:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Rooms](
-	[RoomId] [int] NOT NULL,
+	[RoomId] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](25) NOT NULL,
 	[HostId] [int] NOT NULL,
 	[JoinedId] [int] NULL,

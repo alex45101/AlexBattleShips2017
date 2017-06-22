@@ -1,6 +1,6 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  Table [dbo].[Spectators]    Script Date: 6/22/2017 2:35:22 PM ******/
+/****** Object:  Table [dbo].[Spectators]    Script Date: 6/22/2017 3:09:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

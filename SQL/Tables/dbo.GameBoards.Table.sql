@@ -1,6 +1,6 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  Table [dbo].[GameBoards]    Script Date: 6/22/2017 2:35:22 PM ******/
+/****** Object:  Table [dbo].[GameBoards]    Script Date: 6/22/2017 3:09:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8,6 +8,8 @@ GO
 CREATE TABLE [dbo].[GameBoards](
 	[GameBoardId] [int] NOT NULL,
 	[CellId] [int] NOT NULL,
+	[UserId] [int] NOT NULL,
+	[IsFilled] [bit] NOT NULL,
  CONSTRAINT [PK_GameBoards] PRIMARY KEY CLUSTERED 
 (
 	[GameBoardId] ASC
@@ -19,4 +21,9 @@ ALTER TABLE [dbo].[GameBoards]  WITH CHECK ADD  CONSTRAINT [FK_GameBoards_Cells]
 REFERENCES [dbo].[Cells] ([CellId])
 GO
 ALTER TABLE [dbo].[GameBoards] CHECK CONSTRAINT [FK_GameBoards_Cells]
+GO
+ALTER TABLE [dbo].[GameBoards]  WITH CHECK ADD  CONSTRAINT [FK_GameBoards_Users] FOREIGN KEY([UserId])
+REFERENCES [dbo].[Users] ([UserId])
+GO
+ALTER TABLE [dbo].[GameBoards] CHECK CONSTRAINT [FK_GameBoards_Users]
 GO
