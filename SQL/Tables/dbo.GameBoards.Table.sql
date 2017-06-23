@@ -1,15 +1,16 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  Table [dbo].[GameBoards]    Script Date: 6/22/2017 3:09:47 PM ******/
+/****** Object:  Table [dbo].[GameBoards]    Script Date: 6/23/2017 3:06:52 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[GameBoards](
-	[GameBoardId] [int] NOT NULL,
+	[GameBoardId] [int] IDENTITY(1,1) NOT NULL,
 	[CellId] [int] NOT NULL,
 	[UserId] [int] NOT NULL,
 	[IsFilled] [bit] NOT NULL,
+	[IsHit] [bit] NOT NULL,
  CONSTRAINT [PK_GameBoards] PRIMARY KEY CLUSTERED 
 (
 	[GameBoardId] ASC

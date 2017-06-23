@@ -1,12 +1,12 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  Table [dbo].[Cells]    Script Date: 6/22/2017 3:09:47 PM ******/
+/****** Object:  Table [dbo].[Cells]    Script Date: 6/23/2017 3:06:52 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Cells](
-	[CellId] [int] NOT NULL,
+	[CellId] [int] IDENTITY(1,1) NOT NULL,
 	[X] [int] NOT NULL,
 	[Y] [int] NOT NULL,
  CONSTRAINT [PK_Cells] PRIMARY KEY CLUSTERED 
