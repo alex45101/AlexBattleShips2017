@@ -1,17 +1,25 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_getSpectator]    Script Date: 6/25/2017 5:31:50 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_getSpectator]    Script Date: 6/26/2017 1:30:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+
 CREATE PROC [dbo].[usp_getSpectator]
-	@SpectatorId int
+	@PublicUserId uniqueidentifier
 AS
 BEGIN
-SELECT * FROM Spectators
-WHERE SpectatorId = @SpectatorId
+	DECLARE @UserId int
+
+	SELECT @UserId = UserId
+	FROM Users
+	WHERE Users.PublicUserId = @PublicUserId
+
+	SELECT * FROM Spectators
+	WHERE Spectators.UserId = @UserId
 END
+
 
 GO
