@@ -1,6 +1,6 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_changeHostReady]    Script Date: 6/26/2017 1:52:33 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_changeHostReady]    Script Date: 6/26/2017 3:12:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
