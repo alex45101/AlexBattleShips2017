@@ -1,6 +1,6 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  Table [dbo].[Rooms]    Script Date: 6/26/2017 1:24:30 PM ******/
+/****** Object:  Table [dbo].[Rooms]    Script Date: 6/26/2017 1:50:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16,7 +16,7 @@ CREATE TABLE [dbo].[Rooms](
 	[JoinReady] [bit] NOT NULL,
 	[HostGameBoardId] [int] NULL,
 	[JoinedGameBoardId] [int] NULL,
-	[InGame] [bit] NOT NULL,
+	[StatusId] [int] NOT NULL,
 	[IsPrivate] [bit] NOT NULL,
  CONSTRAINT [PK_Rooms] PRIMARY KEY CLUSTERED 
 (
@@ -34,6 +34,11 @@ ALTER TABLE [dbo].[Rooms]  WITH CHECK ADD  CONSTRAINT [FK_Rooms_GameBoards1] FOR
 REFERENCES [dbo].[GameBoards] ([GameBoardId])
 GO
 ALTER TABLE [dbo].[Rooms] CHECK CONSTRAINT [FK_Rooms_GameBoards1]
+GO
+ALTER TABLE [dbo].[Rooms]  WITH CHECK ADD  CONSTRAINT [FK_Rooms_GameStatuses] FOREIGN KEY([StatusId])
+REFERENCES [dbo].[GameStatuses] ([StatusId])
+GO
+ALTER TABLE [dbo].[Rooms] CHECK CONSTRAINT [FK_Rooms_GameStatuses]
 GO
 ALTER TABLE [dbo].[Rooms]  WITH CHECK ADD  CONSTRAINT [FK_Rooms_Users] FOREIGN KEY([HostId])
 REFERENCES [dbo].[Users] ([UserId])
