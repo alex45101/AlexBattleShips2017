@@ -1,10 +1,11 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_setRoom]    Script Date: 6/26/2017 1:30:54 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_setRoom]    Script Date: 6/26/2017 1:52:33 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 CREATE PROC [dbo].[usp_setRoom]
 	@Name nvarchar(25),
@@ -16,9 +17,9 @@ DECLARE @HostId int
 
 SELECT @HostId = UserId
 FROM Users
-WHERE Users.PublicId = @PublicHostId
+WHERE Users.PublicUserId = @PublicHostId
 
 INSERT Rooms
-VALUES(@Name, GETDATE(), NEWID(), @HostId, NULL, 0, 0, NULL, NULL, 0, @IsPrivate)
+VALUES(@Name, GETDATE(), NEWID(), @HostId, NULL, 0, 0, NULL, NULL, 1, @IsPrivate)
 
 GO

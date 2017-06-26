@@ -1,10 +1,11 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_getRoom]    Script Date: 6/26/2017 1:30:54 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_getRoom]    Script Date: 6/26/2017 1:52:33 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 
@@ -21,11 +22,12 @@ BEGIN
 	,		JoinReady
 	,		HostGameBoardId
 	,		JoinedGameBoardId
-	,		InGame
+	,		StatusId
 	,		IsPrivate
 	FROM Rooms
 	WHERE PublicRoomId = @PublicRoomId
 END
+
 
 
 
