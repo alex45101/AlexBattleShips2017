@@ -1,6 +1,6 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_setRoom]    Script Date: 6/27/2017 1:26:56 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_setRoom]    Script Date: 6/27/2017 2:20:29 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

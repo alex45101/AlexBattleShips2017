@@ -1,6 +1,6 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  UserDefinedFunction [dbo].[fn_IsGameSettingUpBoard]    Script Date: 6/27/2017 1:27:19 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[fn_IsGameSettingUpBoard]    Script Date: 6/27/2017 2:20:51 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

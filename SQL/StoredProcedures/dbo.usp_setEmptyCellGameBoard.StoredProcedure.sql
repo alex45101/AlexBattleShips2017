@@ -1,10 +1,11 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_setEmptyCellGameBoard]    Script Date: 6/27/2017 1:26:56 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_setEmptyCellGameBoard]    Script Date: 6/27/2017 2:20:29 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROC [dbo].[usp_setEmptyCellGameBoard]
 		@PublicRoomId uniqueidentifier,	
 		@PublicUserId uniqueidentifier,		
@@ -31,7 +32,8 @@ BEGIN
 	WHERE Cells.X = @X AND Cells.Y = @Y
 
 	INSERT GameBoards
-	VALUES(@CellId, @RoomId, @UserId, 0, 0)
+	VALUES(@CellId, @RoomId, @UserId, 0, 1)
 
 END
+
 GO
