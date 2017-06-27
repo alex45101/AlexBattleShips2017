@@ -1,6 +1,6 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 6/22/2017 3:09:47 PM ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 6/27/2017 2:19:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8,6 +8,7 @@ GO
 CREATE TABLE [dbo].[Users](
 	[UserId] [int] IDENTITY(1,1) NOT NULL,
 	[Username] [nvarchar](20) NOT NULL,
+	[PublicUserId] [uniqueidentifier] NOT NULL,
  CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
 (
 	[UserId] ASC
