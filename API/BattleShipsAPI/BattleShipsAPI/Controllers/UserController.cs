@@ -11,7 +11,7 @@ using System.Web.Http;
 namespace BattleShipsAPI.Controllers
 {
     [RoutePrefix("api/User")]
-    public class UserController
+    public class UserController : ApiController
     {
         public static readonly string connectionString = ConfigurationManager.ConnectionStrings["gmrskybase"].ConnectionString;
 
@@ -23,23 +23,17 @@ namespace BattleShipsAPI.Controllers
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                using (SqlCommand command = new SqlCommand("usp_setUser"))
+                using (SqlCommand command = new SqlCommand("usp_setUser", connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter("@Username", username));
 
-                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
                     adapter.Fill(table);
                 }               
             }
 
-            return new UserInfo(table.Rows[0]["Username"].ToString(), Guid.Parse(table.Rows[0]["PublicId"].ToString()));
-        }
-        [Route("Test")]
-        [HttpGet]
-        public bool Test()
-        {
-            return true;
+            return new UserInfo(table.Rows[0]["Username"].ToString(), Guid.Parse(table.Rows[0]["PublicUserId"].ToString()));
         }
     }
 }
