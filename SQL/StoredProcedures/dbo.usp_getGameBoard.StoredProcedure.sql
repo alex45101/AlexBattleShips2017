@@ -1,10 +1,11 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_getGameBoard]    Script Date: 6/27/2017 12:28:27 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_getGameBoard]    Script Date: 6/27/2017 1:26:56 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 
@@ -13,15 +14,10 @@ CREATE PROC [dbo].[usp_getGameBoard]
 AS
 BEGIN
 
-DECLARE @UserId int
-
-SELECT @UserId = UserId
-FROM Users
-WHERE Users.PublicUserId = @PublicUserID
-
-SELECT * FROM	GameBoards
-WHERE	GameBoards.UserId = @UserId
+SELECT * FROM	vw_BoardInfo
+WHERE	vw_BoardInfo.UserId = @PublicUserID
 END
+
 
 
 GO

@@ -1,10 +1,11 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_setShipCellGameBoard]    Script Date: 6/27/2017 12:28:27 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_setShipCellGameBoard]    Script Date: 6/27/2017 1:26:56 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROC [dbo].[usp_setShipCellGameBoard]
 		@PublicRoomId uniqueidentifier,	
 		@PublicUserId uniqueidentifier,		
@@ -30,8 +31,17 @@ BEGIN
 	FROM Cells
 	WHERE Cells.X = @X AND Cells.Y = @Y
 
-	INSERT GameBoards
-	VALUES(@CellId, @RoomId, @UserId, 1, 0)
-
+	IF NOT EXISTS(SELECT * FROM GameBoards WHERE CellId = @CellId AND RoomId = @RoomId AND UserId = @UserId)
+	BEGIN
+		DECLARE @CanAddBoard bit
+		SET @CanAddBoard = dbo.fn_IsGameSettingUpBoard (@PublicRoomId)
+		
+		IF(@CanAddBoard = 1)
+		BEGIN
+			INSERT GameBoards
+			VALUES(@CellId, @RoomId, @UserId, 1, 0)
+		END
+	END
 END
+
 GO
