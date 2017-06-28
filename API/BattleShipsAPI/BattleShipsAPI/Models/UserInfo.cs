@@ -9,7 +9,7 @@ namespace BattleShipsAPI.Models
     public class UserInfo
     {
         [JsonProperty("username")]
-        public string Username { get; }
+        public string Username { get; private set; }
         [JsonProperty("publicId")]
         public Guid? PublicId { get; }
 

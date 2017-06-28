@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 
@@ -13,11 +14,11 @@ namespace BattleShipsAPI.Controllers
     [RoutePrefix("api/User")]
     public class UserController : ApiController
     {
-        public static readonly string connectionString = ConfigurationManager.ConnectionStrings["gmrskybase"].ConnectionString;
+        public static readonly string connectionString = ConfigurationManager.ConnectionStrings["gmrskybase"].ConnectionString;        
 
-        [Route("Register/{username}")]
+        [Route("Register")]
         [HttpPost]
-        public UserInfo Register(string username)
+        public UserInfo Register([FromBody]UserInfo username)
         {
             DataTable table = new DataTable();
 
@@ -26,7 +27,7 @@ namespace BattleShipsAPI.Controllers
                 using (SqlCommand command = new SqlCommand("usp_setUser", connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.Add(new SqlParameter("@Username", username));
+                    command.Parameters.Add(new SqlParameter("@Username", username.Username));
 
                     SqlDataAdapter adapter = new SqlDataAdapter(command);
                     adapter.Fill(table);
