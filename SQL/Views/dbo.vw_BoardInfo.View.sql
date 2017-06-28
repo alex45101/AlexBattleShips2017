@@ -1,6 +1,6 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  View [dbo].[vw_BoardInfo]    Script Date: 6/27/2017 3:32:56 PM ******/
+/****** Object:  View [dbo].[vw_BoardInfo]    Script Date: 6/28/2017 3:01:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
