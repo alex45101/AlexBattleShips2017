@@ -18,7 +18,7 @@ namespace BattleShipsAPI.Controllers
 
         [Route("Register")]
         [HttpPost]
-        public UserInfo Register([FromBody]UserInfo username)
+        public UserInfo Register([FromBody]UserInfo userInfo)
         {
             DataTable table = new DataTable();
 
@@ -27,7 +27,7 @@ namespace BattleShipsAPI.Controllers
                 using (SqlCommand command = new SqlCommand("usp_setUser", connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.Add(new SqlParameter("@Username", username.Username));
+                    command.Parameters.Add(new SqlParameter("@Username", userInfo.Username));
 
                     SqlDataAdapter adapter = new SqlDataAdapter(command);
                     adapter.Fill(table);
