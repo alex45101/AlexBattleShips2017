@@ -35,7 +35,40 @@ namespace BattleShipsAPI.Controllers
                 }
             }
 
-            return new RoomInfo(table.Rows[0]["Name"].ToString(), Guid.Parse(table.Rows[0]["RoomId"].ToString()), bool.Parse(table.Rows[0]["IsPrivate"].ToString()));
-        }        
+            return new RoomInfo(table.Rows[0]["Name"].ToString(), table.Rows[0]["RoomId"].ToGuid(), table.Rows[0]["IsPrivate"].ToBool());
+        }
+
+        [Route("RoomStatus/{publicRoomId}")]
+        [HttpGet]
+        public RoomStatus RoomStatus(Guid publicRoomId)
+        {
+            DataTable table = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("usp_getRoom", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@PublicRoomId", publicRoomId));
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    adapter.Fill(table);
+                }
+            }
+
+            return new RoomStatus()
+            {
+                Name = table.Rows[0]["Name"].ToString(),
+                TimeCreated = DateTime.Parse(table.Rows[0]["TimeCreated"].ToString()),
+                PublicRoomId = table.Rows[0]["RoomId"].ToGuid(),
+                HostUser = table.Rows[0]["HostUser"].ToString(),
+                HostReady = table.Rows[0]["HostReady"].ToBool(),
+                JoinUser = table.Rows[0]["JoinedUser"].ToString(),
+                JoinReady = table.Rows[0]["JoinedReady"].ToBool(),
+                StatusId = table.Rows[0]["StatusId"].ToInt(),
+                Status = table.Rows[0]["Status"].ToString(),
+                IsPrivate = table.Rows[0]["IsPrivate"].ToBool() 
+            };
+        }
     }
 }

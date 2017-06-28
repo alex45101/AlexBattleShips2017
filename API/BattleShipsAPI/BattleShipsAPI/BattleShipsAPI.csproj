@@ -33,6 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\BattleShipsAPI.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -173,13 +174,19 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CellGameBoard.cs" />
     <Compile Include="Models\RoomInfo.cs" />
+    <Compile Include="Models\RoomStatus.cs" />
     <Compile Include="Models\UserInfo.cs" />
+    <Compile Include="Models\UserJoin.cs" />
+    <Compile Include="Models\UserReadyStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

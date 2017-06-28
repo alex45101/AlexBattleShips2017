@@ -52,5 +52,87 @@ namespace BattleShipsAPI.Tests
             var room = JsonConvert.DeserializeObject<RoomInfo>(response);
             Assert.IsNotNull(room);
         }
+
+        [TestMethod]
+        public void ReadyInvokeTest()
+        {
+            UserController controller = new UserController();
+            var result = controller.Ready(new UserReadyStatus(Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"), Guid.Parse("F0BCA20B-E16E-48B5-9B55-5A5A3553BEB5"), true));
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public async Task ReadyHttpTest()
+        {
+            HttpClient client = new HttpClient();
+            UserReadyStatus status = new UserReadyStatus(Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"), Guid.Parse("F0BCA20B-E16E-48B5-9B55-5A5A3553BEB5"), true);
+
+            var result = await client.PostAsJsonAsync($"http://localhost:60253/api/User/Ready", status);
+            string response = await result.Content.ReadAsStringAsync();
+            var userReadyStatus = JsonConvert.DeserializeObject<UserReadyStatus>(response);
+            Assert.IsNotNull(userReadyStatus);
+        }
+
+        [TestMethod]
+        public void UserJoinEmptyRoomInvokeTest()
+        {
+            UserController controller = new UserController();
+            var result = controller.Join(new UserJoin(Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"), Guid.Parse("62978E72-14C0-4A95-AEC0-F3489ABF8972")));
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void UserJoinFullRoomInvokeTest()
+        {
+            UserController controller = new UserController();
+            var result = controller.Join(new UserJoin(Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"), Guid.Parse("62978E72-14C0-4A95-AEC0-F3489ABF8972")));
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public async Task UserJoinHttpTest()
+        {
+            HttpClient client = new HttpClient();
+            UserJoin join = new UserJoin(Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"), Guid.Parse("62978E72-14C0-4A95-AEC0-F3489ABF8972"));
+
+            var result = await client.PostAsJsonAsync($"http://localhost:60253/api/User/Join", join);
+            string response = await result.Content.ReadAsStringAsync();
+            var joinReponse = JsonConvert.DeserializeObject<bool>(response);
+            Assert.IsNotNull(joinReponse);
+        }
+
+        [TestMethod]
+        public void UserLeaveInvokeTest()
+        {
+            UserController controller = new UserController();
+            var result = controller.Leave(new UserJoin(Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"), Guid.Parse("62978E72-14C0-4A95-AEC0-F3489ABF8972")));
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public async Task UserLeaveHttpTest()
+        {
+            HttpClient client = new HttpClient();
+            UserJoin leave = new UserJoin(Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"), Guid.Parse("62978E72-14C0-4A95-AEC0-F3489ABF8972"));
+
+            var result = await client.PostAsJsonAsync($"http://localhost:60253/api/User/Leave", leave);
+            string response = await result.Content.ReadAsStringAsync();
+            var leaveResponse = JsonConvert.DeserializeObject<bool>(response);
+            Assert.IsNotNull(leaveResponse);
+        }
+
+        [TestMethod]
+        public void RoomStatusInvokeTest()
+        {
+            RoomController controller = new RoomController();
+            var result = controller.RoomStatus(Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"));
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public async Task RoomStatusHttpTest()
+        {
+            HttpClient client = new HttpClient();
+        }
     }
 }
