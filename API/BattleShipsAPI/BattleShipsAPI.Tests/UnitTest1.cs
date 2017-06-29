@@ -129,10 +129,108 @@ namespace BattleShipsAPI.Tests
             Assert.IsNotNull(result);
         }
 
+        //dont look at this
         [TestMethod]
         public async Task RoomStatusHttpTest()
         {
             HttpClient client = new HttpClient();
+        }
+
+        [TestMethod]
+        public void AddShipInvokeTest()
+        {
+            BoardController controller = new BoardController();
+            var result = controller.AddShipCell(new CellGameBoard {
+                PublicRoomId = Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"),
+                PublicUserId = Guid.Parse("62978E72-14C0-4A95-AEC0-F3489ABF8972"),
+                X = 0,
+                Y = 0
+            });
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public async Task AddShipHttpTest()
+        {
+            HttpClient client = new HttpClient();
+            CellGameBoard cell = new CellGameBoard {
+                PublicRoomId = Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"),
+                PublicUserId = Guid.Parse("62978E72-14C0-4A95-AEC0-F3489ABF8972"),
+                X = 0,
+                Y = 0
+            };
+
+            var result = await client.PostAsJsonAsync($"http://localhost:60253/api/Board/AddShipCell", cell);
+            string response = await result.Content.ReadAsStringAsync();
+            var added = JsonConvert.DeserializeObject<bool>(response);
+            Assert.IsNotNull(added);
+        }
+
+        [TestMethod]
+        public void AddEmptyCellInvokeTest()
+        {
+            BoardController controller = new BoardController();
+            var result = controller.AddEmptyCell(new CellGameBoard
+            {
+                PublicRoomId = Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"),
+                PublicUserId = Guid.Parse("62978E72-14C0-4A95-AEC0-F3489ABF8972"),
+                X = 2,
+                Y = 0
+            });
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public async Task AddEmptyCellHttpTest()
+        {
+            HttpClient client = new HttpClient();
+            CellGameBoard cell = new CellGameBoard
+            {
+                PublicRoomId = Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"),
+                PublicUserId = Guid.Parse("62978E72-14C0-4A95-AEC0-F3489ABF8972"),
+                X = 1,
+                Y = 0
+            };
+
+            var result = await client.PostAsJsonAsync($"http://localhost:60253/api/Board/AddEmptyCell", cell);
+            string response = await result.Content.ReadAsStringAsync();
+            var added = JsonConvert.DeserializeObject<bool>(response);
+            Assert.IsNotNull(added);
+        }
+
+        [TestMethod]
+        public void AttackInvokeTest()
+        {
+            BoardController controller = new BoardController();
+            var result = controller.Attack(new CellGameBoard
+            {
+                PublicRoomId = Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"),
+                PublicUserId = Guid.Parse("62978E72-14C0-4A95-AEC0-F3489ABF8972"),
+                X = 0,
+                Y = 0
+            });
+
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public async Task AttackHttpTest()
+        {
+            HttpClient client = new HttpClient();
+            CellGameBoard cell = new CellGameBoard
+            {
+                PublicRoomId = Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"),
+                PublicUserId = Guid.Parse("62978E72-14C0-4A95-AEC0-F3489ABF8972"),
+                X = 0,
+                Y = 0
+            };
+
+            var result = await client.PostAsJsonAsync($"http://localhost:60253/api/Board/Attack", cell);
+            string response = await result.Content.ReadAsStringAsync();
+            var added = JsonConvert.DeserializeObject<GameStatus>(response);
+            Assert.IsNotNull(added);
         }
     }
 }
