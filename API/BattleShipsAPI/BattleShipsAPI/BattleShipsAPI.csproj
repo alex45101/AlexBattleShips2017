@@ -184,6 +184,7 @@
     <Compile Include="Models\CellGameBoard.cs" />
     <Compile Include="Models\GameStatus.cs" />
     <Compile Include="Models\RoomInfo.cs" />
+    <Compile Include="Models\RoomItem.cs" />
     <Compile Include="Models\RoomStatus.cs" />
     <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Models\UserJoin.cs" />

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace BattleShipsAPI.Controllers
 {
@@ -15,6 +16,7 @@ namespace BattleShipsAPI.Controllers
     /// User-related functions
     /// </summary>
     [RoutePrefix("api/User")]
+    [EnableCors("*","*","*")]
     public class UserController : ApiController
     {
         public static readonly string connectionString = ConfigurationManager.ConnectionStrings["gmrskybase"].ConnectionString;

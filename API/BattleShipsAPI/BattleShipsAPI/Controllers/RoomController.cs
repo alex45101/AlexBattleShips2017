@@ -8,10 +8,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace BattleShipsAPI.Controllers
 {
     [RoutePrefix("api/Room")]
+    [EnableCors("*", "*", "*")]
     public class RoomController : ApiController
     {
         public static readonly string connectionString = ConfigurationManager.ConnectionStrings["gmrskybase"].ConnectionString;
@@ -69,6 +71,34 @@ namespace BattleShipsAPI.Controllers
                 Status = table.Rows[0]["Status"].ToString(),
                 IsPrivate = table.Rows[0]["IsPrivate"].ToBool() 
             };
+        }
+
+        [Route("RoomList/{pageNumber}")]
+        [HttpGet]
+        public List<RoomInfo> GetRooms(int pageNumber, int pageSize)
+        {
+            DataTable table = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("usp_getRoom", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@PageNumber", pageNumber));
+                    command.Parameters.Add(new SqlParameter("@PageSize", pageSize));
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    adapter.Fill(table);
+                }
+            }
+
+            List<RoomInfo> rooms = new List<RoomInfo>();
+            for (int i = 0; i < pageSize; i++)
+            {
+                //rooms.Add(new RoomInfo(table.Rows[0]["Name"].ToString(), table.Rows[0][""]))
+            }
+
+            return null;
         }
     }
 }
