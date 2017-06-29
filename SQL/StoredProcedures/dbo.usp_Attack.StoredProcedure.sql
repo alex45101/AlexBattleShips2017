@@ -1,10 +1,13 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_Attack]    Script Date: 6/27/2017 2:20:29 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_Attack]    Script Date: 6/29/2017 11:17:19 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
+
+
 
 
 CREATE PROC [dbo].[usp_Attack]
@@ -14,31 +17,27 @@ CREATE PROC [dbo].[usp_Attack]
 		@y				int
 AS
 BEGIN
-	DECLARE @hitSamePlace bit
-	SET @hitSamePlace = 0
-
-	DECLARE	@nextTurn int
-	SET @nextTurn = dbo.fn_ChangeTurn (@publicRoomId)
-
-	DECLARE @hitShip bit
-	SET	@hitShip = dbo.fn_HitCell (@publicRoomId, @publicUserId, @x, @y)
-
+	DECLARE @hitSamePlace bit = 0
+	DECLARE	@nextTurn int = dbo.fn_ChangeTurn (@publicRoomId)
+	DECLARE @hitShip bit = dbo.fn_HitCell (@publicRoomId, @publicUserId, @x, @y)	
 	DECLARE @userId int
+	DECLARE @roomId int
+	DECLARE @cellId int
+
 	SELECT @userId = UserId
 	FROM Users
 	WHERE PublicUserId = @PublicUserId
 
-	DECLARE @roomId int
+	
 	SELECT @roomId = RoomId
 	FROM Rooms
 	WHERE PublicRoomId = @PublicRoomId
-
-	DECLARE @cellId int
-	SELECT @cellId = CellId
-	FROM Cells
+	
+	SELECT	@cellId = CellId
+	FROM	Cells
 	WHERE	Cells.X = @X
 	AND		Cells.Y = @Y
-	--TODO: FIX if statement
+
 	IF(dbo.fn_IsHost(@userId) = 0 AND @nextTurn = 4 OR dbo.fn_IsHost(@userId) = 1 AND @nextTurn = 3)
 	BEGIN
 		IF NOT EXISTS(SELECT * FROM GameBoards WHERE CellId = @cellId AND UserId = @userId AND RoomId = @roomId AND IsHit = 1)
@@ -56,8 +55,7 @@ BEGIN
 				EXEC usp_setEmptyCellGameBoard @publicRoomId, @publicUserId, @x, @y
 			END
 
-			DECLARE @isGameOver bit
-			SET @isGameOver = dbo.fn_IsGameOver (@publicRoomId, @publicUserId)
+			DECLARE @isGameOver bit = dbo.fn_IsGameOver (@publicRoomId, @publicUserId)			
 
 			IF(@isGameOver = 0)
 			BEGIN
@@ -79,6 +77,5 @@ BEGIN
 	FROM	vw_RoomInfo
 	WHERE	vw_RoomInfo.RoomId = @publicRoomId
 END
-
 
 GO
