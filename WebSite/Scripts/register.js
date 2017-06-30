@@ -7,8 +7,8 @@ function registerUser() {
     postRequest("User/Register", user, (response) => {         
         user = JSON.parse(response);
 
-        localStorage["username"] = user.username;
-        localStorage["userId"] = user.publicId;
+        sessionStorage["username"] = user.username;
+        sessionStorage["userId"] = user.publicId;
 
         console.log("User " + user.username + " with a public id of " + user.publicId + "was registered")
 

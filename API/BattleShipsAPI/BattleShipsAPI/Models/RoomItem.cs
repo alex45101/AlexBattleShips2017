@@ -12,6 +12,8 @@ namespace BattleShipsAPI.Models
         public int RowNum { get; set; }
         [JsonProperty("roomName")]
         public string RoomName { get; set; }
+        [JsonProperty("roomId")]
+        public Guid RoomId { get; set; }
         [JsonProperty("hostUser")]
         public string HostUser { get; set; }
         [JsonProperty("status")]

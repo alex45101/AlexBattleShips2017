@@ -11,9 +11,9 @@ namespace BattleShipsAPI.Models
         [JsonProperty("publicRoomId")]
         public Guid PublicRoomId { get; set; }
         [JsonProperty("publicUserId")]
-        public Guid? PublicUserId { get; set; }
+        public Guid PublicUserId { get; set; }
 
-        public UserJoin(Guid publicRoomId, Guid? publicUserId)            
+        public UserJoin(Guid publicRoomId, Guid publicUserId)            
         {
             PublicRoomId = publicRoomId;
             PublicUserId = publicUserId;

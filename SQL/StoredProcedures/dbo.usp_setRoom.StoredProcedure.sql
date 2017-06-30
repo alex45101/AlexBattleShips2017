@@ -1,10 +1,11 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_setRoom]    Script Date: 6/29/2017 8:49:53 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_setRoom]    Script Date: 6/30/2017 2:47:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 
@@ -25,10 +26,11 @@ WHERE Users.PublicUserId = @PublicHostId
 INSERT Rooms
 VALUES(@Name, GETDATE(), @id, @HostId, NULL, 0, 0, NULL, NULL, 1, @IsPrivate)
 
-SELECT *
+SELECT *, @PublicHostId AS HostId
 FROM vw_RoomInfo
 WHERE	Name	= @Name
 AND		RoomId	= @id
+
 
 
 GO

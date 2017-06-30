@@ -1,6 +1,6 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_getGameBoard]    Script Date: 6/29/2017 8:49:53 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_getGameBoard]    Script Date: 6/30/2017 2:47:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

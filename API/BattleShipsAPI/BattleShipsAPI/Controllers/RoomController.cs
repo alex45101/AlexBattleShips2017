@@ -38,7 +38,7 @@ namespace BattleShipsAPI.Controllers
                 }
             }
 
-            return new RoomInfo(table.Rows[0]["Name"].ToString(), table.Rows[0]["RoomId"].ToGuid(), table.Rows[0]["IsPrivate"].ToBool());
+            return new RoomInfo(table.Rows[0]["Name"].ToString(), table.Rows[0]["HostId"].ToGuid(), table.Rows[0]["IsPrivate"].ToBool());
         }
 
         [Route("RoomStatus/{publicRoomId}")]
@@ -99,6 +99,7 @@ namespace BattleShipsAPI.Controllers
                 rooms.Add(new RoomItem
                 {
                     RowNum = table.Rows[i]["RowNumber"].ToInt(),
+                    RoomId = table.Rows[i]["RoomId"].ToGuid(),
                     RoomName = table.Rows[i]["RoomName"].ToString(),
                     HostUser = table.Rows[i]["HostUser"].ToString(),
                     Status = table.Rows[i]["Status"].ToString(),
