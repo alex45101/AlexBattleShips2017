@@ -5,6 +5,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using BattleShipsAPI.Models;
+using System.Collections.Generic;
 
 namespace BattleShipsAPI.Tests
 {
@@ -231,6 +232,14 @@ namespace BattleShipsAPI.Tests
             string response = await result.Content.ReadAsStringAsync();
             var added = JsonConvert.DeserializeObject<GameStatus>(response);
             Assert.IsNotNull(added);
+        }
+
+        [TestMethod]
+        public void GetRoomsInvokeTest()
+        {
+            RoomController controller = new RoomController();
+            var result = controller.GetRooms(1);
+            Assert.AreSame(new List<RoomItem>(), result);
         }
     }
 }

@@ -19,6 +19,7 @@ namespace BattleShipsAPI.Controllers
         public static readonly string connectionString = ConfigurationManager.ConnectionStrings["gmrskybase"].ConnectionString;
 
         [Route("Create")]
+        [HttpPost]
         public RoomInfo CreateRoom([FromBody]RoomInfo roomInfo)
         {
             DataTable table = new DataTable();
@@ -69,13 +70,13 @@ namespace BattleShipsAPI.Controllers
                 JoinReady = table.Rows[0]["JoinedReady"].ToBool(),
                 StatusId = table.Rows[0]["StatusId"].ToInt(),
                 Status = table.Rows[0]["Status"].ToString(),
-                IsPrivate = table.Rows[0]["IsPrivate"].ToBool() 
+                IsPrivate = table.Rows[0]["IsPrivate"].ToBool()
             };
         }
 
         [Route("RoomList/{pageNumber}")]
         [HttpGet]
-        public List<RoomInfo> GetRooms(int pageNumber, int pageSize)
+        public List<RoomItem> GetRooms(int pageNumber)
         {
             DataTable table = new DataTable();
 
@@ -85,20 +86,27 @@ namespace BattleShipsAPI.Controllers
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter("@PageNumber", pageNumber));
-                    command.Parameters.Add(new SqlParameter("@PageSize", pageSize));
+                    //command.Parameters.Add(new SqlParameter("@PageSize", pageSize));
 
                     SqlDataAdapter adapter = new SqlDataAdapter(command);
                     adapter.Fill(table);
                 }
             }
 
-            List<RoomInfo> rooms = new List<RoomInfo>();
-            for (int i = 0; i < pageSize; i++)
+            List<RoomItem> rooms = new List<RoomItem>();
+            for (int i = 0; i < table.Rows.Count; i++)
             {
-                //rooms.Add(new RoomInfo(table.Rows[0]["Name"].ToString(), table.Rows[0][""]))
+                rooms.Add(new RoomItem
+                {
+                    RowNum = table.Rows[i]["RowNumber"].ToInt(),
+                    RoomName = table.Rows[i]["RoomName"].ToString(),
+                    HostUser = table.Rows[i]["HostUser"].ToString(),
+                    Status = table.Rows[i]["Status"].ToString(),
+                    IsPrivate = table.Rows[i]["IsPrivate"].ToBool()
+                });
             }
 
-            return null;
+            return rooms;
         }
     }
 }
