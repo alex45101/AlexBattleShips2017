@@ -8,21 +8,24 @@ document.body.onload = () => {
 
 function getRooms() {
     getRequestP("Room/RoomList/1", (response) => {
-        let result = JSON.parse(response);
+        var result = JSON.parse(response);
         for (let i = 0; i < result.length; i++) {
 
             var divElement = document.createElement("div");
             divElement.id = "Room" + result[i].rowNum;
 
             divElement.onclick = (event) => {
+
+                sessionStorage["roomId"] = result[i].roomId;
+
                 var userJoin = {
-                    "publicRoomId": result[i].roomId,
+                    "publicRoomId":  sessionStorage["roomId"],
                     "publicUserId": sessionStorage["userId"]
                 };
 
                 postRequest("User/Join", userJoin, (response) => {
                     if (response == "true") {
-                        sessionStorage["roomId"] = result[i].roomId;
+                        sessionStorage["roomId"] =  sessionStorage["roomId"];
                         sessionStorage["isHost"] = false;
 
                         console.log(sessionStorage["username"] + " has joined the room " + result[i].roomName);
@@ -60,7 +63,7 @@ function createRoom() {
     postRequest("Room/Create", roomInfo, (response) => {
         roomInfo = JSON.parse(response);
 
-        sessionStorage["roomId"] = roomInfo.roomId;
+        sessionStorage["roomId"] = roomInfo.publicId;
         sessionStorage["isHost"] = true;
 
         console.log("Post Response " + response);

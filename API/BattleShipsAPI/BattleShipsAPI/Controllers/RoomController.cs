@@ -38,7 +38,9 @@ namespace BattleShipsAPI.Controllers
                 }
             }
 
-            return new RoomInfo(table.Rows[0]["Name"].ToString(), table.Rows[0]["HostId"].ToGuid(), table.Rows[0]["IsPrivate"].ToBool());
+            return new RoomInfo(table.Rows[0]["Name"].ToString(), table.Rows[0]["HostId"].ToGuid(), table.Rows[0]["IsPrivate"].ToBool()) {
+                PublicId = table.Rows[0]["RoomId"].ToGuid()
+            };
         }
 
         [Route("RoomStatus/{publicRoomId}")]
@@ -49,7 +51,7 @@ namespace BattleShipsAPI.Controllers
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                using (SqlCommand command = new SqlCommand("usp_getRoom", connection))
+                using (SqlCommand command = new SqlCommand("usp_getStatusRoom", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter("@PublicRoomId", publicRoomId));
@@ -61,16 +63,16 @@ namespace BattleShipsAPI.Controllers
 
             return new RoomStatus()
             {
-                Name = table.Rows[0]["Name"].ToString(),
-                TimeCreated = DateTime.Parse(table.Rows[0]["TimeCreated"].ToString()),
-                PublicRoomId = table.Rows[0]["RoomId"].ToGuid(),
-                HostUser = table.Rows[0]["HostUser"].ToString(),
-                HostReady = table.Rows[0]["HostReady"].ToBool(),
-                JoinUser = table.Rows[0]["JoinedUser"].ToString(),
-                JoinReady = table.Rows[0]["JoinedReady"].ToBool(),
+                //Name = table.Rows[0]["Name"].ToString(),
+                //TimeCreated = DateTime.Parse(table.Rows[0]["TimeCreated"].ToString()),
+                //PublicRoomId = table.Rows[0]["RoomId"].ToGuid(),
+                //HostUser = table.Rows[0]["HostUser"].ToString(),
+                //HostReady = table.Rows[0]["HostReady"].ToBool(),
+                //JoinUser = table.Rows[0]["JoinedUser"].ToString(),
+                //JoinReady = table.Rows[0]["JoinedReady"].ToBool(),
                 StatusId = table.Rows[0]["StatusId"].ToInt(),
-                Status = table.Rows[0]["Status"].ToString(),
-                IsPrivate = table.Rows[0]["IsPrivate"].ToBool()
+                Status = table.Rows[0]["Status"].ToString()
+                //IsPrivate = table.Rows[0]["IsPrivate"].ToBool()
             };
         }
 

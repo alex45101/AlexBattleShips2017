@@ -32,6 +32,9 @@ document.body.onload = () => {
     }
 
     generateBoard();
+
+    //doesnt work you are doing something wrong
+    setInterval(loop(), 500);
 };
 
 function generateBoard() {
@@ -48,7 +51,6 @@ function generateBoard() {
             cell.id = count;
             cell.setAttribute("data-x", j);
             cell.setAttribute("data-y", i);
-            cell.innerHTML = "";
             cell.style.border = "solid";
             cell.style.padding = "15px";
             cell.onclick = () => {
@@ -94,4 +96,19 @@ function placeShip(size, direction, cellId) {
 
         }
     }
+}
+
+var roomStatus = {
+    "statusId":"",
+    "status":""
+};
+
+function loop(){
+    getRequestP("Room/RoomStatus/" + sessionStorage["roomId"], (response) =>{
+        roomStatus = response;
+
+        if(parseInt(roomStatus.statusId) > 2){
+            console.log("game is starting");
+        }
+    });
 }

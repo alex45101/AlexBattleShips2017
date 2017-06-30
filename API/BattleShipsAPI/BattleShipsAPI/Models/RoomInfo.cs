@@ -13,7 +13,7 @@ namespace BattleShipsAPI.Models
         [JsonProperty("timeCreated")]
         public DateTime TimeCreated { get; set; }
         [JsonProperty("publicId")]
-        public Guid? PublicId { get; set; }
+        public Guid PublicId { get; set; }
         [JsonProperty("hostId")]
         public Guid HostId { get; set; }
         [JsonProperty("joinId")]
