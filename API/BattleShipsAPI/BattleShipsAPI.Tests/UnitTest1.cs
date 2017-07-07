@@ -241,5 +241,21 @@ namespace BattleShipsAPI.Tests
             var result = controller.GetRooms(1);
             Assert.AreSame(new List<RoomItem>(), result);
         }
+
+        [TestMethod]
+        public void GetBoardInkoveTest()
+        {
+            BoardController controller = new BoardController();
+            var result = controller.GetBoard(Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"), Guid.Parse("62978E72-14C0-4A95-AEC0-F3489ABF8972"));
+            Assert.AreSame(new List<CellGameBoard>(), result);
+        }
+
+        [TestMethod]
+        public void GetUsersInRoomInvokeTest()
+        {
+            RoomController controller = new RoomController();
+            var result = controller.GetUsersInRoom(Guid.Parse("9AEBDC07-593A-4345-89DD-7C1E8BA155DF"));
+            Assert.IsNotNull(result.Host);
+        }
     }
 }

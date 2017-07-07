@@ -189,6 +189,7 @@
     <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Models\UserJoin.cs" />
     <Compile Include="Models\UserReadyStatus.cs" />
+    <Compile Include="Models\UsersInRoom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

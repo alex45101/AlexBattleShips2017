@@ -103,5 +103,39 @@ namespace BattleShipsAPI.Controllers
                 Status = table.Rows[0]["Status"].ToString()
             };
         }
+
+        [Route("UserBoard/{roomId}/{userId}")]
+        [HttpGet]
+        public List<CellGameBoard> GetBoard(Guid roomId, Guid userId)
+        {
+            DataTable table = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("usp_getGameBoard", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@PublicUserId", userId));
+                    command.Parameters.Add(new SqlParameter("@PublicRoomId", roomId));
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    adapter.Fill(table);
+                }
+            }
+
+            List<CellGameBoard> board = new List<CellGameBoard>();
+
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                board.Add(new CellGameBoard {
+                    PublicRoomId = table.Rows[i]["RoomId"].ToGuid(),
+                    PublicUserId = table.Rows[i]["UserId"].ToGuid(),
+                    X = table.Rows[i]["XPos"].ToInt(),
+                    Y = table.Rows[i]["YPos"].ToInt()
+                });
+            }
+
+            return board;
+        }        
     }
 }

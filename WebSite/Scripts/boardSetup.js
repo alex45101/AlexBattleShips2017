@@ -7,6 +7,13 @@ document.body.onload = () => {
     boardElement = document.getElementById("board");
     shipButtons = document.getElementsByName("ship");
 
+    if (sessionStorage["isHost"] === "false") {
+        getRequestP("Room/GetUsers/" + sessionStorage["roomId"], (response) => {
+            let users = JSON.parse(response);
+            sessionStorage["enemyId"] = users.host;
+        });
+    }
+
     var checkBox = document.getElementById("readyCheckBox");
     checkBox.onclick = () => {
         let user = {
@@ -15,7 +22,7 @@ document.body.onload = () => {
             "readyStatus": false
         };
 
-        if (checkBox.value == "ready"){
+        if (checkBox.value == "ready") {
             user.readyStatus = true;
         }
 
@@ -33,8 +40,7 @@ document.body.onload = () => {
 
     generateBoard();
 
-    //doesnt work you are doing something wrong
-    setInterval(loop(), 500);
+    setInterval(loop, 500);
 };
 
 function generateBoard() {
@@ -99,16 +105,24 @@ function placeShip(size, direction, cellId) {
 }
 
 var roomStatus = {
-    "statusId":"",
-    "status":""
+    "statusId": "",
+    "status": ""
 };
 
-function loop(){
-    getRequestP("Room/RoomStatus/" + sessionStorage["roomId"], (response) =>{
-        roomStatus = response;
+function loop() {
+    getRequestP("Room/RoomStatus/" + sessionStorage["roomId"], (response) => {
+        roomStatus = JSON.parse(response);
 
-        if(parseInt(roomStatus.statusId) > 2){
+        if (parseInt(roomStatus.statusId) > 2) {
+            if (sessionStorage["isHost"] === "true") {
+                getRequestP("Room/GetUsers/" + sessionStorage["roomId"], (response) => {
+                    let users = JSON.parse(response);
+                    sessionStorage["enemyId"] = users.joined;
+                });
+            }
+
             console.log("game is starting");
+            window.location.href = "../Pages/GamePage.html";
         }
     });
 }

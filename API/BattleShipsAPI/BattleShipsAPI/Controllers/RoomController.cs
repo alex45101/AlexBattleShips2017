@@ -76,6 +76,41 @@ namespace BattleShipsAPI.Controllers
             };
         }
 
+        [Route("GetUsers/{publicRoomId}")]
+        [HttpGet]
+        public UsersInRoom GetUsersInRoom(Guid publicRoomId)
+        {
+            DataTable table = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("usp_getUsersInRoom", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@PublicRoomId", publicRoomId));
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    adapter.Fill(table);
+                } 
+            }
+
+            if (string.IsNullOrEmpty(table.Rows[0]["JoinedId"].ToString()))
+            {
+                return new UsersInRoom
+                {
+                    Host = table.Rows[0]["HostId"].ToGuid(),                    
+                };
+            }
+            else
+            {
+                return new UsersInRoom
+                {
+                    Host = table.Rows[0]["HostId"].ToGuid(),
+                    Joined = table.Rows[0]["JoinedId"].ToGuid()
+                };
+            }
+        }
+
         [Route("RoomList/{pageNumber}")]
         [HttpGet]
         public List<RoomItem> GetRooms(int pageNumber)

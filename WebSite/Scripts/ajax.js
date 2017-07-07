@@ -45,28 +45,30 @@ document.body.onload = () => {
 }
 
 function baseLoad() {
-    
+
     if (OnWindow("/Pages/MainPage.html") === false) {
         if (IsUserCreated() === false) {
             console.log(window.location.origin + "/Pages/MainPage.html");
             console.log(window.location.href);
-            
+
             console.log("redirecting....");
             window.location.href = "../Pages/MainPage.html";
         }
         else {
-            if(OnWindow("/Pages/SetupPage.html") === false && sessionStorage["isHost"] === "false" && sessionStorage["roomId"] !== undefined) {
+            if (OnWindow("/Pages/SetupPage.html") === false && sessionStorage["roomId"] !== undefined) {
                 var userJoin = {
                     "publicRoomId": sessionStorage["roomId"],
                     "publicUserId": sessionStorage["userId"]
                 };
 
-                postRequest("User/Leave", userJoin, (response) => {
-                    if (response == "true") {
-                        console.log("User left roomId: " + sessionStorage["roomId"]);
-                        sessionStorage.removeItem("roomId");
-                    }
-                });
+                if (sessionStorage["isHost"] === "false") {
+                    postRequest("User/Leave", userJoin, (response) => {
+                        if (response == "true") {
+                            console.log("User left roomId: " + sessionStorage["roomId"]);
+                            sessionStorage.removeItem("roomId");
+                        }
+                    });
+                }
             }
         }
     }
@@ -76,6 +78,6 @@ function IsUserCreated() {
     return sessionStorage["username"] !== undefined && sessionStorage["userId"] !== undefined;
 }
 
-function OnWindow(link){
+function OnWindow(link) {
     return window.location.href === window.location.origin + link;
 }
