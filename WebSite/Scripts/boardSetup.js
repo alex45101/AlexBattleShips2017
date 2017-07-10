@@ -113,15 +113,18 @@ function loop() {
     getRequestP("Room/RoomStatus/" + sessionStorage["roomId"], (response) => {
         roomStatus = JSON.parse(response);
 
-        if (parseInt(roomStatus.statusId) > 2) {
+        if(parseInt(roomStatus.statusId) == 2){
             if (sessionStorage["isHost"] === "true") {
                 getRequestP("Room/GetUsers/" + sessionStorage["roomId"], (response) => {
                     let users = JSON.parse(response);
                     sessionStorage["enemyId"] = users.joined;
                 });
             }
+        }
 
+        if (parseInt(roomStatus.statusId) > 2) {
             console.log("game is starting");
+            sessionStorage["previousPage"] = "SetupPage";
             window.location.href = "../Pages/GamePage.html";
         }
     });

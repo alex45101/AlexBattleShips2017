@@ -29,6 +29,7 @@ function getRooms() {
                         sessionStorage["isHost"] = false;
 
                         console.log(sessionStorage["username"] + " has joined the room " + result[i].roomName);
+                        sessionStorage["previousPage"] = "SetupPage";
                         window.location.href = "../Pages/SetupPage.html";
                     } else {
                         console.log("The room is full");
@@ -68,6 +69,7 @@ function createRoom() {
 
         console.log("Post Response " + response);
         console.log("Created room: " + sessionStorage["roomId"])
+        sessionStorage["previousPage"] = "SetupPage";
         window.location.href = "../Pages/SetupPage.html";
     });
 }

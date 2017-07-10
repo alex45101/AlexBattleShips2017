@@ -79,7 +79,7 @@ namespace BattleShipsAPI.Controllers
 
         [Route("Attack")]
         [HttpPost]
-        public GameStatus Attack([FromBody]CellGameBoard cell)
+        public CellStatus Attack([FromBody]CellGameBoard cell)
         {
             DataTable table = new DataTable();
 
@@ -98,9 +98,11 @@ namespace BattleShipsAPI.Controllers
                 }
             }
 
-            return new GameStatus {
+            return new CellStatus {
                 StatusId = table.Rows[0]["StatusId"].ToInt(),
-                Status = table.Rows[0]["Status"].ToString()
+                Status = table.Rows[0]["Status"].ToString(),
+                IsShip = table.Rows[0]["IsShip"].ToBool(),
+                IsHit = table.Rows[0]["IsHit"].ToBool()
             };
         }
 

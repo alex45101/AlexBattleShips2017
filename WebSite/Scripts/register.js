@@ -11,7 +11,7 @@ function registerUser() {
         sessionStorage["userId"] = user.publicId;
 
         console.log("User " + user.username + " with a public id of " + user.publicId + "was registered")
-
+        sessionStorage["previousPage"] = "RoomPage";
         window.location.href = "../Pages/RoomPage.html";
     });
 }

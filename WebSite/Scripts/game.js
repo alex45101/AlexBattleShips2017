@@ -1,18 +1,29 @@
-var boardElement;
+var playerBoardElement;
+var enemyBoardElement;
+var statusLabel;
 var playerCells;
+var enemyCells;
 
 document.body.onload = () => {
     baseLoad();
-    boardElement = document.getElementById("playerBoard");    
+    playerBoardElement = document.getElementById("playerBoard");
+    enemyBoardElement = document.getElementById("enemyBoard");
+    statusLabel = document.getElementById("gameStatus");
 };
 
-getRequestP("Board/UserBoard/" + sessionStorage["roomId"] + "/" + sessionStorage["userId"], (response) => { 
+getRequestP("Board/UserBoard/" + sessionStorage["roomId"] + "/" + sessionStorage["userId"], (response) => {
     console.log(response);
     playerCells = JSON.parse(response);
-    generateBoard();
+    generateBoard(false);
 });
 
-function generateBoard() {
+getRequestP("Board/UserBoard/" + sessionStorage["roomId"] + "/" + sessionStorage["enemyId"], (response) => {
+    console.log(response);
+    enemyCells = JSON.parse(response);
+    generateBoard(true);
+});
+
+function generateBoard(isEnemy) {
     let count = 0;
     var table = document.createElement("TABLE");
     table.style.border = "solid";
@@ -27,16 +38,17 @@ function generateBoard() {
             cell.setAttribute("data-x", j);
             cell.setAttribute("data-y", i);
             cell.style.border = "solid";
-            cell.style.padding = "15px";                        
+            cell.style.padding = "15px";
 
-            if(containsPosition(playerCells, j, i)){
+            if (isEnemy === false && containsPosition(playerCells, j, i)) {
                 cell.style.backgroundColor = "blue";
             }
-
-            cell.onclick = () => {
-                console.log(cell);
-                placeShip(selectedShip, 0, cell.id);
-            };
+            else if (isEnemy === true) {
+                cell.onclick = () => {
+                    console.log(cell);
+                    placeMissle(cell);
+                };
+            }
 
             row.appendChild(cell);
 
@@ -44,13 +56,39 @@ function generateBoard() {
         }
         table.appendChild(row);
     }
-
-    boardElement.appendChild(table);
+    if (isEnemy == false) {
+        playerBoardElement.appendChild(table);
+    }
+    else{
+        enemyBoardElement.appendChild(table);
+    }
 }
 
-function containsPosition(player, x, y){
-    for(var i = 0; i < player.length; i++){
-        if(parseInt(player[i].X) == x && parseInt(player[i].Y) == y){
+function placeMissle(cell) {
+    var cellGameBoard = {
+        "publicRoomId": sessionStorage["roomId"].toString(),
+        "publicUserId": sessionStorage["userId"].toString(),
+        "X": cell.dataset.x.toString(),
+        "Y": cell.dataset.y.toString()
+    };
+
+    postRequest("Board/Attack", cellGameBoard, (response) => {
+        console.log(response);
+        let cellStatus = JSON.parse(response);
+        if (cellStatus.isHit == true) {
+            if (cellStatus.isShip == true) {
+                cell.style.backgroundColor = "red";
+            }
+            else{
+                cell.style.backgroundColor = "gray";
+            }
+        }
+    });
+}
+
+function containsPosition(player, x, y) {
+    for (var i = 0; i < player.length; i++) {
+        if (parseInt(player[i].X) == x && parseInt(player[i].Y) == y) {
             return true;
         }
     }

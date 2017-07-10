@@ -1,10 +1,11 @@
 USE [AlexLeontievBattleships2017]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_Attack]    Script Date: 7/6/2017 8:42:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_Attack]    Script Date: 7/9/2017 6:52:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 
@@ -74,8 +75,15 @@ BEGIN
 
 	SELECT	vw_RoomInfo.StatusId
 	,		vw_RoomInfo.Status
+	,		vw_BoardInfo.IsShip
+	,		vw_BoardInfo.IsHit
 	FROM	vw_RoomInfo
-	WHERE	vw_RoomInfo.RoomId = @publicRoomId
+	JOIN	vw_BoardInfo	
+	ON		vw_BoardInfo.RoomId	= vw_RoomInfo.RoomId
+	WHERE	vw_BoardInfo.XPos = @x
+	AND		vw_BoardInfo.YPos = @y
+	AND	vw_RoomInfo.RoomId = @publicRoomId
 END
+
 
 GO

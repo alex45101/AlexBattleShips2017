@@ -55,7 +55,7 @@ function baseLoad() {
             window.location.href = "../Pages/MainPage.html";
         }
         else {
-            if (OnWindow("/Pages/SetupPage.html") === false && sessionStorage["roomId"] !== undefined) {
+            if (OnWindow("/Pages/SetupPage.html") === false && sessionStorage["roomId"] !== undefined && sessionStorage["previousPage"] !== "SetupPage") {
                 var userJoin = {
                     "publicRoomId": sessionStorage["roomId"],
                     "publicUserId": sessionStorage["userId"]
